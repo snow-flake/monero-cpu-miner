@@ -6,3 +6,5 @@ Makefile
 cmake-build-debug
 cmake_install.cmake
 .idea
+monero_cpu_miner
+monero_cpu_miner.cbp
