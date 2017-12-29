@@ -36,6 +36,8 @@ set(
         c_skein/c_skein.hpp
         c_skein/c_skein.cpp
         c_skein/skein_port.hpp
+        c_cryptonight/do_cryptonight.hpp
+        c_cryptonight/do_cryptonight.cpp
         c_cryptonight/cryptonight.hpp
         c_cryptonight/cryptonight.cpp
         c_cryptonight/cryptonight_aesni.hpp
