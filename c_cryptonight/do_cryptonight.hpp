@@ -6,6 +6,7 @@
 #define MONERO_CPU_MINER_DO_CRYPTONIGHT_H
 
 #include <cstdint>
+#include <string>
 
 enum memory_mode_t {
 	never_use = 1,
@@ -45,9 +46,12 @@ struct CryptonightWork {
 	hash_mode_t hash_mode;
 	uint8_t input[112];
 	uint32_t input_size;
-	uint64_t output_target;
 	uint8_t output[32];
 
+	CryptonightWork(memory_mode_t memory_mode, hash_mode_t hash_mode, const std::string & input_str);
+
+	const std::string input_str();
+	const std::string output_str();
 };
 
 bool do_cryptonight(CryptonightWork & work);

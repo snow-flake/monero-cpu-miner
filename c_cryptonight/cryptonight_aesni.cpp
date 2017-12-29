@@ -683,4 +683,39 @@ namespace c_cryptonight {
 			extra_hashes[ctx[i]->hash_state[0] & 3](ctx[i]->hash_state, 200, (char *) output + 32 * i);
 		}
 	}
+
+
+
+	void currency_monero__aes_disabled__prefetch_disabled(c_cryptonight::cryptonight_ctx * context, uint8_t* input, uint32_t input_size, uint8_t* output) {
+		c_cryptonight::cryptonight_hash<MONERO_MASK, MONERO_ITER, MONERO_MEMORY, false, false>(input, input_size, output, context);
+	}
+
+	void currency_monero__aes_disabled__prefetch_enabled(c_cryptonight::cryptonight_ctx * context, uint8_t* input, uint32_t input_size, uint8_t* output) {
+		c_cryptonight::cryptonight_hash<MONERO_MASK, MONERO_ITER, MONERO_MEMORY, false, true>(input, input_size, output, context);
+	}
+
+	void currency_monero__aes_enabled__prefetch_disabled(c_cryptonight::cryptonight_ctx * context, uint8_t* input, uint32_t input_size, uint8_t* output) {
+		c_cryptonight::cryptonight_hash<MONERO_MASK, MONERO_ITER, MONERO_MEMORY, true, false>(input, input_size, output, context);
+	}
+
+	void currency_monero__aes_enabled__prefetch_enabled(c_cryptonight::cryptonight_ctx * context, uint8_t* input, uint32_t input_size, uint8_t* output) {
+		c_cryptonight::cryptonight_hash<MONERO_MASK, MONERO_ITER, MONERO_MEMORY, true, true>(input, input_size, output, context);
+	}
+
+	void currency_aeon__aes_disabled__prefetch_disabled(c_cryptonight::cryptonight_ctx * context, uint8_t* input, uint32_t input_size, uint8_t* output) {
+		c_cryptonight::cryptonight_hash<AEON_MASK, AEON_ITER, AEON_MEMORY, false, false>(input, input_size, output, context);
+	}
+
+	void currency_aeon__aes_disabled__prefetch_enabled(c_cryptonight::cryptonight_ctx * context, uint8_t* input, uint32_t input_size, uint8_t* output) {
+		c_cryptonight::cryptonight_hash<AEON_MASK, AEON_ITER, AEON_MEMORY, false, true>(input, input_size, output, context);
+	}
+
+	void currency_aeon__aes_enabled__prefetch_disabled(c_cryptonight::cryptonight_ctx * context, uint8_t* input, uint32_t input_size, uint8_t* output) {
+		c_cryptonight::cryptonight_hash<AEON_MASK, AEON_ITER, AEON_MEMORY, true, false>(input, input_size, output, context);
+	}
+
+	void currency_aeon__aes_enabled__prefetch_enabled(c_cryptonight::cryptonight_ctx * context, uint8_t* input, uint32_t input_size, uint8_t* output) {
+		c_cryptonight::cryptonight_hash<AEON_MASK, AEON_ITER, AEON_MEMORY, true, true>(input, input_size, output, context);
+	}
+
 }

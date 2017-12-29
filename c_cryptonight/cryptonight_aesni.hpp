@@ -84,4 +84,14 @@ namespace c_cryptonight {
 // This most lovely creation will do 5 cn hashes at a time.
 	template<size_t MASK, size_t ITERATIONS, size_t MEM, bool SOFT_AES, bool PREFETCH>
 	void cryptonight_penta_hash(const void *input, size_t len, void *output, cryptonight_ctx **ctx);
+
+
+	void currency_monero__aes_disabled__prefetch_disabled(c_cryptonight::cryptonight_ctx * context, uint8_t* input, uint32_t input_size, uint8_t* output);
+	void currency_monero__aes_disabled__prefetch_enabled(c_cryptonight::cryptonight_ctx * context, uint8_t* input, uint32_t input_size, uint8_t* output);
+	void currency_monero__aes_enabled__prefetch_disabled(c_cryptonight::cryptonight_ctx * context, uint8_t* input, uint32_t input_size, uint8_t* output);
+	void currency_monero__aes_enabled__prefetch_enabled(c_cryptonight::cryptonight_ctx * context, uint8_t* input, uint32_t input_size, uint8_t* output);
+	void currency_aeon__aes_disabled__prefetch_disabled(c_cryptonight::cryptonight_ctx * context, uint8_t* input, uint32_t input_size, uint8_t* output);
+	void currency_aeon__aes_disabled__prefetch_enabled(c_cryptonight::cryptonight_ctx * context, uint8_t* input, uint32_t input_size, uint8_t* output);
+	void currency_aeon__aes_enabled__prefetch_disabled(c_cryptonight::cryptonight_ctx * context, uint8_t* input, uint32_t input_size, uint8_t* output);
+	void currency_aeon__aes_enabled__prefetch_enabled(c_cryptonight::cryptonight_ctx * context, uint8_t* input, uint32_t input_size, uint8_t* output);
 }

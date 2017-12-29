@@ -6,38 +6,33 @@
 #include "cryptonight.hpp"
 #include "cryptonight_aesni.hpp"
 #include "../logger/logger.hpp"
+#include "../hex/hex_conversions.h"
 
 
-void _currency_monero__aes_disabled__prefetch_disabled(c_cryptonight::cryptonight_ctx * context, CryptonightWork & work) {
-	c_cryptonight::cryptonight_hash<MONERO_MASK, MONERO_ITER, MONERO_MEMORY, false, false>(work.input, work.input_size, work.output, context);
+CryptonightWork::CryptonightWork(memory_mode_t memory_mode, hash_mode_t hash_mode, const std::string & input_str):
+		memory_mode(memory_mode),
+		hash_mode(hash_mode),
+		input_size(input_str.size() / 2)
+{
+	memset(input, 0, sizeof(CryptonightWork::input));
+	memset(output, 0, sizeof(CryptonightWork::output));
+
+	//	const std::vector<unsigned char> input_bytes = hex::decodeHex(input_str);
+	//	memcpy(input, &input_bytes[0], input_bytes.size());
+	hex::hex2bin(input_str, input);
 }
 
-void _currency_monero__aes_disabled__prefetch_enabled(c_cryptonight::cryptonight_ctx * context, CryptonightWork & work) {
-	c_cryptonight::cryptonight_hash<MONERO_MASK, MONERO_ITER, MONERO_MEMORY, false, true>(work.input, work.input_size, work.output, context);
+
+const std::string CryptonightWork::input_str() {
+	char value[200] = {0};
+	hex::bin2hex(input, input_size, value);
+	return std::string(value);
 }
 
-void _currency_monero__aes_enabled__prefetch_disabled(c_cryptonight::cryptonight_ctx * context, CryptonightWork & work) {
-	c_cryptonight::cryptonight_hash<MONERO_MASK, MONERO_ITER, MONERO_MEMORY, true, false>(work.input, work.input_size, work.output, context);
-}
-
-void _currency_monero__aes_enabled__prefetch_enabled(c_cryptonight::cryptonight_ctx * context, CryptonightWork & work) {
-	c_cryptonight::cryptonight_hash<MONERO_MASK, MONERO_ITER, MONERO_MEMORY, true, true>(work.input, work.input_size, work.output, context);
-}
-
-void _currency_aeon__aes_disabled__prefetch_disabled(c_cryptonight::cryptonight_ctx * context, CryptonightWork & work) {
-	c_cryptonight::cryptonight_hash<AEON_MASK, AEON_ITER, AEON_MEMORY, false, false>(work.input, work.input_size, work.output, context);
-}
-
-void _currency_aeon__aes_disabled__prefetch_enabled(c_cryptonight::cryptonight_ctx * context, CryptonightWork & work) {
-	c_cryptonight::cryptonight_hash<AEON_MASK, AEON_ITER, AEON_MEMORY, false, true>(work.input, work.input_size, work.output, context);
-}
-
-void _currency_aeon__aes_enabled__prefetch_disabled(c_cryptonight::cryptonight_ctx * context, CryptonightWork & work) {
-	c_cryptonight::cryptonight_hash<AEON_MASK, AEON_ITER, AEON_MEMORY, true, false>(work.input, work.input_size, work.output, context);
-}
-
-void _currency_aeon__aes_enabled__prefetch_enabled(c_cryptonight::cryptonight_ctx * context, CryptonightWork & work) {
-	c_cryptonight::cryptonight_hash<AEON_MASK, AEON_ITER, AEON_MEMORY, true, true>(work.input, work.input_size, work.output, context);
+const std::string CryptonightWork::output_str() {
+	char value[200] = {0};
+	hex::bin2hex(std::string((char*)output), value);
+	return std::string(value);
 }
 
 
@@ -69,14 +64,14 @@ bool do_cryptonight(CryptonightWork & work) {
 	}
 
 	switch(work.hash_mode) {
-		case currency_monero__aes_disabled__prefetch_disabled: _currency_monero__aes_disabled__prefetch_disabled(context, work); break;
-		case currency_monero__aes_disabled__prefetch_enabled: _currency_monero__aes_disabled__prefetch_enabled(context, work); break;
-		case currency_monero__aes_enabled__prefetch_disabled: _currency_monero__aes_enabled__prefetch_disabled(context, work); break;
-		case currency_monero__aes_enabled__prefetch_enabled: _currency_monero__aes_enabled__prefetch_enabled(context, work); break;
-		case currency_aeon__aes_disabled__prefetch_disabled: _currency_aeon__aes_disabled__prefetch_disabled(context, work); break;
-		case currency_aeon__aes_disabled__prefetch_enabled: _currency_aeon__aes_disabled__prefetch_enabled(context, work); break;
-		case currency_aeon__aes_enabled__prefetch_disabled: _currency_aeon__aes_enabled__prefetch_disabled(context, work); break;
-		case currency_aeon__aes_enabled__prefetch_enabled: _currency_aeon__aes_enabled__prefetch_enabled(context, work); break;
+		case currency_monero__aes_disabled__prefetch_disabled: c_cryptonight::currency_monero__aes_disabled__prefetch_disabled(context, work.input, work.input_size, work.output); break;
+		case currency_monero__aes_disabled__prefetch_enabled: c_cryptonight::currency_monero__aes_disabled__prefetch_enabled(context, work.input, work.input_size, work.output); break;
+		case currency_monero__aes_enabled__prefetch_disabled: c_cryptonight::currency_monero__aes_enabled__prefetch_disabled(context, work.input, work.input_size, work.output); break;
+		case currency_monero__aes_enabled__prefetch_enabled: c_cryptonight::currency_monero__aes_enabled__prefetch_enabled(context, work.input, work.input_size, work.output); break;
+		case currency_aeon__aes_disabled__prefetch_disabled: c_cryptonight::currency_aeon__aes_disabled__prefetch_disabled(context, work.input, work.input_size, work.output); break;
+		case currency_aeon__aes_disabled__prefetch_enabled: c_cryptonight::currency_aeon__aes_disabled__prefetch_enabled(context, work.input, work.input_size, work.output); break;
+		case currency_aeon__aes_enabled__prefetch_disabled: c_cryptonight::currency_aeon__aes_enabled__prefetch_disabled(context, work.input, work.input_size, work.output); break;
+		case currency_aeon__aes_enabled__prefetch_enabled: c_cryptonight::currency_aeon__aes_enabled__prefetch_enabled(context, work.input, work.input_size, work.output); break;
 		default:
 			logger::log_error(__FILE__, __LINE__, "Worker selection failed");
 			cryptonight_free_ctx(context);
